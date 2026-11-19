@@ -1,0 +1,33 @@
+{
+  "name": "airflow-ts-sdk-trial",
+  "version": "1.0.0",
+  "description": "Field trial of the Airflow TypeScript SDK 1.0.0 against Airflow 3.4.0",
+  "scripts": {
+    "typecheck": "tsc",
+    "build:hello": "airflow-ts-pack src/hello/main.ts --outfile dist/ts-hello.min.mjs",
+    "build:dags": "airflow-ts-pack src/main.ts --outfile dist/route-health.min.mjs",
+    "build:stubs": "airflow-ts-pack stubs/main.ts --outfile dist/route-stubs.min.mjs",
+    "build": "npm run typecheck && npm run build:hello && npm run build:dags && npm run build:stubs",
+    "deploy": "npm run build && node scripts/deploy.mjs",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "airflow:up": "docker compose up -d --build",
+    "airflow:down": "docker compose down",
+    "airflow:logs": "docker compose logs -f airflow",
+    "airflow:variables": "node scripts/airflow-variables.mjs"
+  },
+  "author": "Joel Emmanuel",
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "@apache-airflow/ts-sdk": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  }
+}
