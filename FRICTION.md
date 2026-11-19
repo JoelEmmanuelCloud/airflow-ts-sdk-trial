@@ -324,7 +324,7 @@ Question key: 1 wiring | 2 options | 3 type safety | 4 build/deploy | 5 missing 
   The guide says these commands "refuse" a TypeScript Dag, which is true, but the message sends you looking
   for a parse error that does not exist.
 - **What I expected / wanted to write:** Either it works, or:
-  `Dag 'route_health_report' is declared in TypeScript (ts-hello.min.mjs); 'dags test' does not support it yet.`
+  `Dag 'route_health_report' is declared in TypeScript (route-health.min.mjs); 'dags test' does not support it yet.`
 - **Workaround:** None from the CLI. Trigger a real run and read the logs.
 - **Severity:** annoying
 - **Found by:** Claude Code during build
