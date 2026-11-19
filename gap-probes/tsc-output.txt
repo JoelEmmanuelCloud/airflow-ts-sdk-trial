@@ -1,0 +1,25 @@
+gap-probes/01-dynamic-task-mapping.ts(9,12): error TS2339: Property 'expand' does not exist on type '(inputs: TaskInputs<{ routeId: string; }>) => TaskRef<number>'.
+gap-probes/01-dynamic-task-mapping.ts(10,12): error TS2339: Property 'map' does not exist on type '(inputs: TaskInputs<{ routeId: string; }>) => TaskRef<number>'.
+gap-probes/02-dag-params.ts(5,3): error TS2353: Object literal may only specify known properties, and 'params' does not exist in type 'DagSpec'.
+gap-probes/02-dag-params.ts(12,11): error TS2339: Property 'params' does not exist on type 'TaskContext'.
+gap-probes/02-dag-params.ts(12,33): error TS2558: Expected 0 type arguments, but got 1.
+gap-probes/03-callbacks.ts(9,3): error TS2353: Object literal may only specify known properties, and 'onFailureCallback' does not exist in type 'DagSpec'.
+gap-probes/03-callbacks.ts(13,26): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '() => Promise<string>' is not assignable to parameter of type 'Operator<void, unknown>'.
+gap-probes/04-assets.ts(1,10): error TS2305: Module '"@apache-airflow/ts-sdk"' has no exported member 'Asset'.
+gap-probes/04-assets.ts(6,31): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '() => Promise<string>' is not assignable to parameter of type 'Operator<void, unknown>'.
+gap-probes/04-assets.ts(8,73): error TS2322: Type 'any[]' is not assignable to type 'string'.
+gap-probes/04-assets.ts(9,32): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '() => Promise<string>' is not assignable to parameter of type 'Operator<void, unknown>'.
+gap-probes/06-run-conf.ts(6,11): error TS2339: Property 'conf' does not exist on type 'TaskContext'.
+gap-probes/06-run-conf.ts(6,31): error TS2558: Expected 0 type arguments, but got 1.
+gap-probes/07-trigger-conf-from-upstream.ts(7,76): error TS2322: Type 'TaskRef<string>' is not assignable to type 'JsonValue'.
+  Type 'TaskRef<string>' is not assignable to type '{ [key: string]: JsonValue; }'.
+    Index signature for type 'string' is missing in type 'TaskRef<string>'.
+gap-probes/08-logical-date.ts(6,11): error TS2339: Property 'logicalDate' does not exist on type 'TaskContext'.
+gap-probes/08-logical-date.ts(6,24): error TS2339: Property 'dataIntervalStart' does not exist on type 'TaskContext'.
+gap-probes/08-logical-date.ts(6,43): error TS2339: Property 'dataIntervalEnd' does not exist on type 'TaskContext'.
