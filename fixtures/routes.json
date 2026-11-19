@@ -1,0 +1,22 @@
+[
+  {
+    "id": "R101",
+    "name": "Harbourfront Loop"
+  },
+  {
+    "id": "R102",
+    "name": "Lakeshore Connector"
+  },
+  {
+    "id": "R103",
+    "name": "Midtown Crosstown"
+  },
+  {
+    "id": "R104",
+    "name": "Northgate Express"
+  },
+  {
+    "id": "R105",
+    "name": "Riverside Local"
+  }
+]
