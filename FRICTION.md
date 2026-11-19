@@ -297,8 +297,9 @@ Question key: 1 wiring | 2 options | 3 type safety | 4 build/deploy | 5 missing 
   ```
   [error] [ts-sdk.runtime] Task failed  error="Unknown route id undefined"  bound_args=[]
   ```
-  `bound_args=[]` means Airflow 3.4.0 sent no argument bindings for the mapped task, so `routeId` was
-  `undefined`. The guide says "A name the handler reads that the call did not pass is logged rather than
+  `bound_args=[]` means the TypeScript runtime bound no arguments for the mapped task, so `routeId` was
+  `undefined`. I have not checked whether Airflow left the expanded argument out of the bindings it sent, or
+  sent it in a form the SDK skips; the result is the same for the author. The guide says "A name the handler reads that the call did not pass is logged rather than
   raised", but no warning was logged: with no bindings the SDK hands over a plain empty object
   (`EMPTY_ARGS` in `dist/coordinator/arg-binding.js`) instead of the object that logs missing names.
   TypeScript cannot help either, since the handler type says `routeId: string`.
@@ -354,4 +355,20 @@ Question key: 1 wiring | 2 options | 3 type safety | 4 build/deploy | 5 missing 
   configuration. The task log names what each bundle serves
   (`registered_tasks={'route_health_per_route': ['score_route']}`), which made it easy to confirm.
 - **Severity:** positive
+- **Found by:** Claude Code during build
+
+### F-21: `tsc` catches a misspelled task input well, and the build ships it anyway
+- **Question:** 3 type safety, 4 build/deploy
+- **What I tried:** Changed `scoresTask({ delays })` to `scoresTask({ delayz: delays })`.
+- **What happened:** `npx tsc` gave a good message:
+  ```
+  error TS2561: Object literal may only specify known properties, but 'delayz' does not exist in type 'TaskInputs<{ delays: RouteDelay[]; }>'. Did you mean to write 'delays'?
+  ```
+  `npx airflow-ts-pack src/main.ts --outfile dist/x.min.mjs` with the same typo still printed
+  `Wrote dist/x.min.mjs (airflow metadata, source, and integrity embedded)`. The guide warns about this, but
+  the safe path depends on everyone remembering to run `tsc` first.
+- **What I expected / wanted to write:** `airflow-ts-pack` running the type check by default, with a
+  `--no-typecheck` flag for people who check elsewhere.
+- **Workaround:** `npm run build` runs `tsc` first.
+- **Severity:** papercut
 - **Found by:** Claude Code during build
