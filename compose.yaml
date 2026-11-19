@@ -1,0 +1,23 @@
+name: airflow-ts-sdk-trial
+
+services:
+  airflow:
+    build: ./airflow
+    image: airflow-ts-sdk-trial:3.4.0
+    command: standalone
+    ports:
+      - "8080:8080"
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS: "joel:admin"
+      AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_PASSWORDS_FILE: /opt/airflow/state/passwords.json
+      AIRFLOW__DAG_PROCESSOR__REFRESH_INTERVAL: "30"
+      AIRFLOW__SDK__COORDINATORS: '{"ts": {"classpath": "airflow.sdk.coordinators.node.NodeCoordinator"}}'
+      AIRFLOW__SDK__QUEUE_TO_COORDINATOR: '{"typescript": "ts"}'
+      ROUTE_HEALTH_DATA_DIR: /opt/airflow/fixtures
+      ROUTE_HEALTH_OUTPUT_DIR: /opt/airflow/output
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./fixtures:/opt/airflow/fixtures:ro
+      - ./output:/opt/airflow/output
+      - ./airflow/state:/opt/airflow/state
