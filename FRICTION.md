@@ -223,7 +223,6 @@ Question key: 1 wiring | 2 options | 3 type safety | 4 build/deploy | 5 missing 
   ```
   [warning] [ts-sdk.runtime] Task argument not bound by this task's call  requested="then" renamed_to=None bound=["report"]
   ```
-
   My code never reads `then`. Cause, found on Nov 25, 2026: `resolveArgs` in
   `ts-sdk/src/coordinator/operator-runner.ts` returns the arguments object from an async function, and
   JavaScript checks any object returned that way for a `then` method. Plain tasks such as
@@ -345,6 +344,10 @@ Question key: 1 wiring | 2 options | 3 type safety | 4 build/deploy | 5 missing 
   So the stub workaround cannot be tested with `dags test` either, and the error points at pools and workers,
   not at the `queue_to_coordinator` setting that would send it to Node.js. This command also records a real
   failed run in the database.
+
+  Rerun on Nov 25, 2026: two of three runs failed with this error, one with the Dag unpaused and one with it
+  paused. An earlier run, with the Dag unpaused, ended as `success`, and all five `score_route` instances have
+  task logs. The running scheduler may have picked up that run's tasks. I did not prove it.
 - **What I expected / wanted to write:** `dags test` routing stub tasks through `[sdk] queue_to_coordinator`,
   as the scheduler does.
 - **Workaround:** None. Trigger a real run.
@@ -377,7 +380,3 @@ Question key: 1 wiring | 2 options | 3 type safety | 4 build/deploy | 5 missing 
 - **Workaround:** `npm run build` runs `tsc` first.
 - **Severity:** papercut
 - **Found by:** Claude Code during build
-
-  Rerun on Nov 25, 2026: two of three runs failed with this error, one with the Dag unpaused and one with it
-  paused. An earlier run, with the Dag unpaused, ended as `success`, and all five `score_route` instances have
-  task logs. The running scheduler may have picked up that run's tasks. I did not prove it.
