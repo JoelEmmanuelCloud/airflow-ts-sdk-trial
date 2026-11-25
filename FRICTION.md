@@ -155,7 +155,7 @@ Question key: 1 wiring | 2 options | 3 type safety | 4 build/deploy | 5 missing 
 - **Workaround:** `test/support/task-scope.ts` installs a fake scope in the SDK's private
   `AsyncLocalStorage`, found through `Symbol.for("airflow.ts-sdk.task-scope")` in the shipped code, and a
   `FakeTaskClient` that implements `TaskClient` plus the undocumented `skipDownstreamTasks` that deciders call.
-  With it, all 32 tests pass, including the retry and state store path. It depends on internals and could break
+  With it, all 34 tests pass, including the retry and state store path. It depends on internals and could break
   in any release.
 - **Severity:** annoying
 - **Found by:** Claude Code during build
@@ -223,8 +223,13 @@ Question key: 1 wiring | 2 options | 3 type safety | 4 build/deploy | 5 missing 
   ```
   [warning] [ts-sdk.runtime] Task argument not bound by this task's call  requested="then" renamed_to=None bound=["report"]
   ```
-  My code never reads `then`. It looks like the SDK `await`s the arguments object, and JavaScript checks any
-  awaited object for a `then` method. Plain tasks such as `send_rider_notices({ report })` do not log it.
+
+  My code never reads `then`. Cause, found on Nov 25, 2026: `resolveArgs` in
+  `ts-sdk/src/coordinator/operator-runner.ts` returns the arguments object from an async function, and
+  JavaScript checks any object returned that way for a `then` method. Plain tasks such as
+  `send_rider_notices({ report })` do not log it, because their arguments come back inside another object.
+  The warning is still on main at `00954198c`. Returning the arguments inside an object there removes it, and a
+  test that fails without the change passes with it.
 - **What I expected / wanted to write:** No warning.
 - **Workaround:** None. It is harmless, but it trains people to ignore this warning, which is useful when it is
   real.
@@ -333,7 +338,7 @@ Question key: 1 wiring | 2 options | 3 type safety | 4 build/deploy | 5 missing 
 ### F-19: `airflow dags test` on the Python Dag fails every TypeScript stub task
 - **Question:** testing, 5 missing feature
 - **What I tried:** `airflow dags test route_health_per_route`
-- **What happened:** The Python tasks run in process; every `score_route` instance fails:
+- **What happened:** The Python tasks run in process; `score_route` fails:
   ```
   RuntimeError: @task.stub should not be executed directly -- we expected this to go to a remote worker. Check your pool and worker configs
   ```
@@ -372,3 +377,7 @@ Question key: 1 wiring | 2 options | 3 type safety | 4 build/deploy | 5 missing 
 - **Workaround:** `npm run build` runs `tsc` first.
 - **Severity:** papercut
 - **Found by:** Claude Code during build
+
+  Rerun on Nov 25, 2026: two of three runs failed with this error, one with the Dag unpaused and one with it
+  paused. An earlier run, with the Dag unpaused, ended as `success`, and all five `score_route` instances have
+  task logs. The running scheduler may have picked up that run's tasks. I did not prove it.

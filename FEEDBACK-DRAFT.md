@@ -67,10 +67,10 @@ test and can open a PR.
 
 | Claim | Friction entry | Last checked |
 |---|---|---|
-| 34 tests pass | F-09 (says 32, needs updating) | Nov 25, rerun |
+| 34 tests pass | F-09 | Nov 25, rerun |
 | Core flow, retry and state store | F-12 | Nov 25, rerun: incident, reject, all good and stale paths |
 | `dags test` on a TypeScript Dag | F-18 | Nov 25, rerun |
-| `dags test` on the Python Dag | F-19 (says every time, needs updating) | Nov 25: failed 2 of 3, passed once, cause not proven |
+| `dags test` on the Python Dag | F-19 | Nov 25: failed 2 of 3, passed once, cause not proven |
 | Mapped stub gets no arguments | F-17 | Nov 25: the workaround path ran 5 of 5 |
 | Stack traces point at the minified bundle | F-14 | Nov 25, rerun |
 | `then` warning | F-13 | Nov 25: seen in 1.0.0 and on main at 00954198c, gone with the fix |
@@ -85,6 +85,6 @@ Before posting:
 - [ ] Push the repo, and confirm the link at the top works.
 - [ ] Do the screen checks in `TESTING.md`, steps 5 to 7.
 - [ ] Rewrite questions 1 to 5 in your own words. The views and the order in question 5 are a starting point.
-- [ ] Update F-09, F-13 and F-19 in `FRICTION.md` so they match the comment.
+- [x] Update F-09, F-13 and F-19 in `FRICTION.md` so they match the comment.
 - [ ] Re-read #76370 for comments newer than Nov 19, 2026 (rodneyg), and check #77392, #71062 and #70570 are still open.
 - [ ] Decide on the AI tool line: `PLAN.md` section 9 allows one honest line, and Airflow requires it on the PR.
